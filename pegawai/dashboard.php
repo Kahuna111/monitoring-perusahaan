@@ -630,6 +630,194 @@ require_once '../includes/navbar.php';
     .m-menu-grid { grid-template-columns: repeat(3, 1fr); }
     .m-summary-grid { grid-template-columns: repeat(2, 1fr); }
 }
+
+/* Attendance Control Card */
+.m-attendance-card {
+    background: white;
+    border-radius: 18px;
+    padding: 20px;
+    margin-top: 20px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+}
+
+.m-attendance-card h4 {
+    font-size: 14px;
+    font-weight: 700;
+    color: #0f172a;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.m-attendance-card h4 svg { width: 18px; height: 18px; color: #059669; }
+
+.m-attendance-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 12px;
+}
+
+.m-attendance-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 16px 12px;
+    border-radius: 14px;
+    border: 1px solid #f1f5f9;
+    background: #f8fafc;
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    text-align: center;
+}
+
+.m-attendance-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    border-color: #e2e8f0;
+}
+
+.m-attendance-btn:active {
+    transform: scale(0.97);
+}
+
+.m-attendance-btn.clock-in.active {
+    background: linear-gradient(135deg, #ecfdf5, #d1fae5);
+    border-color: #a7f3d0;
+}
+
+.m-attendance-btn.clock-out.active {
+    background: linear-gradient(135deg, #fef2f2, #fee2e2);
+    border-color: #fecaca;
+}
+
+.m-attendance-icon-wrap {
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+    font-size: 20px;
+    transition: all 0.2s;
+}
+
+.m-attendance-btn.clock-in .m-attendance-icon-wrap {
+    background: #e6fcf5; color: #059669;
+}
+.m-attendance-btn.clock-in.active .m-attendance-icon-wrap {
+    background: #059669; color: white;
+}
+
+.m-attendance-btn.clock-out .m-attendance-icon-wrap {
+    background: #fff5f5; color: #dc2626;
+}
+.m-attendance-btn.clock-out.active .m-attendance-icon-wrap {
+    background: #dc2626; color: white;
+}
+
+.m-attendance-btn-label {
+    font-size: 13.5px;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 2px;
+}
+
+.m-attendance-btn-time {
+    font-size: 12px;
+    color: #64748b;
+    font-weight: 600;
+}
+
+/* Attendance Notification / Reminder Box */
+.m-attendance-alert {
+    background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+    border: 1px solid #bbf7d0;
+    border-radius: 14px;
+    padding: 14px 16px;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.m-attendance-alert.warning {
+    background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+    border-color: #fde68a;
+}
+
+.m-attendance-alert-icon {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 16px;
+}
+
+.m-attendance-alert.warning .m-attendance-alert-icon {
+    background: #fef3c7; color: #d97706;
+}
+.m-attendance-alert:not(.warning) .m-attendance-alert-icon {
+    background: #d1fae5; color: #059669;
+}
+
+.m-attendance-alert-text {
+    font-size: 12.5px;
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+.m-attendance-alert.warning .m-attendance-alert-text {
+    color: #92400e;
+}
+.m-attendance-alert:not(.warning) .m-attendance-alert-text {
+    color: #065f46;
+}
+
+.pulse-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: #ef4444;
+    display: inline-block;
+    margin-left: 6px;
+    animation: pulse-animation 1.5s infinite;
+}
+
+@keyframes pulse-animation {
+    0% { transform: scale(0.9); opacity: 1; box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
+    70% { transform: scale(1.1); opacity: 0.5; box-shadow: 0 0 0 6px rgba(239, 68, 68, 0); }
+    100% { transform: scale(0.9); opacity: 1; box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+}
+
+/* Toast styling */
+.m-toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: #0f172a;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 12px;
+    font-size: 13px;
+    font-weight: 600;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+    z-index: 10000;
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.m-toast.show {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+}
 </style>
 
 <div class="m-dashboard">
@@ -679,11 +867,73 @@ require_once '../includes/navbar.php';
 
     <?php else: ?>
 
+        <!-- ===== PRESENSI DIGITAL (CLOCK IN / OUT) ===== -->
+        <div class="m-attendance-card">
+            <h4>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                Presensi Digital Hari Ini
+            </h4>
+            
+            <!-- Alert Status -->
+            <div class="m-attendance-alert warning" id="attendanceAlert">
+                <div class="m-attendance-alert-icon">🔔</div>
+                <div class="m-attendance-alert-text">
+                    Anda belum melakukan presensi masuk hari ini.
+                    <span class="pulse-dot"></span>
+                </div>
+            </div>
+
+            <!-- Tombol Absen -->
+            <div class="m-attendance-buttons">
+                <button class="m-attendance-btn clock-in" id="btnClockIn">
+                    <div class="m-attendance-icon-wrap">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 3h4a2 2 0 012 2v14a2 2 0 01-2 2h-4M10 17l5-5-5-5M13.8 12H3"/></svg>
+                    </div>
+                    <span class="m-attendance-btn-label">Clock In</span>
+                    <span class="m-attendance-btn-time" id="timeClockIn">--:--</span>
+                </button>
+                
+                <button class="m-attendance-btn clock-out" id="btnClockOut">
+                    <div class="m-attendance-icon-wrap">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H7.2"/></svg>
+                    </div>
+                    <span class="m-attendance-btn-label">Clock Out</span>
+                    <span class="m-attendance-btn-time" id="timeClockOut">--:--</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- ===== REKAP ABSENSI BULAN LAIN ===== -->
+        <div class="m-summary" style="margin-top: 20px;">
+            <div class="m-summary-title">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                Rekap Kehadiran Bulan Ini
+            </div>
+            <div class="m-summary-grid" style="grid-template-columns: repeat(4, 1fr); gap: 8px;">
+                <div class="m-sum-item" style="padding: 10px 4px;">
+                    <div class="m-sum-value green" id="sumHadir">20</div>
+                    <div class="m-sum-label" style="font-size: 10px;">Hadir</div>
+                </div>
+                <div class="m-sum-item" style="padding: 10px 4px;">
+                    <div class="m-sum-value blue">1</div>
+                    <div class="m-sum-label" style="font-size: 10px;">Izin</div>
+                </div>
+                <div class="m-sum-item" style="padding: 10px 4px;">
+                    <div class="m-sum-value amber">2</div>
+                    <div class="m-sum-label" style="font-size: 10px;">Cuti</div>
+                </div>
+                <div class="m-sum-item" style="padding: 10px 4px;">
+                    <div class="m-sum-value red">0</div>
+                    <div class="m-sum-label" style="font-size: 10px;">Sakit/Alpa</div>
+                </div>
+            </div>
+        </div>
+
         <!-- ===== REKAP RINGKASAN ===== -->
-        <div class="m-summary">
+        <div class="m-summary" style="margin-top: 16px;">
             <div class="m-summary-title">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M2 10h20"/><path d="M12 17v4M8 21h8"/></svg>
-                Rekap Informasi Anda
+                Status Kontrak & Pekerjaan
             </div>
             <div class="m-summary-grid">
                 <div class="m-sum-item">
@@ -692,7 +942,7 @@ require_once '../includes/navbar.php';
                 </div>
                 <div class="m-sum-item">
                     <div class="m-sum-value blue"><?= $masaKerja ? explode(' ', $masaKerja)[0] : '0' ?></div>
-                    <div class="m-sum-label"><?= $masaKerja ? explode(' ', $masaKerja)[1] : 'Bulan' ?></div>
+                    <div class="m-sum-label"><?= $masaKerja ? (explode(' ', $masaKerja)[1] ?? 'Bulan') : 'Bulan' ?></div>
                 </div>
                 <div class="m-sum-item">
                     <div class="m-sum-value <?= $userData['status'] === 'aktif' ? 'green' : 'red' ?>">
@@ -882,25 +1132,165 @@ require_once '../includes/navbar.php';
 
     <?php endif; ?>
 
+    <!-- Toast notification -->
+    <div id="attendanceToast" class="m-toast">
+        <span id="toastIcon">✓</span> <span id="toastMessage">Sukses presensi!</span>
+    </div>
+
     <div class="m-spacer"></div>
 </div>
 
-<!-- Live Clock Script -->
+<!-- Live Clock & Presensi Script -->
 <script>
 (function() {
+    // 1. Live Clock
     const clockEl = document.getElementById('liveClock');
-    if (!clockEl) return;
+    if (clockEl) {
+        function updateClock() {
+            const now = new Date();
+            const h = String(now.getHours()).padStart(2, '0');
+            const m = String(now.getMinutes()).padStart(2, '0');
+            const s = String(now.getSeconds()).padStart(2, '0');
+            clockEl.innerHTML = h + ':' + m + '<span class="m-clock-sec">:' + s + '</span>';
+        }
+        updateClock();
+        setInterval(updateClock, 1000);
+    }
 
-    function updateClock() {
+    // 2. Presensi Digital Logic
+    const btnClockIn = document.getElementById('btnClockIn');
+    const btnClockOut = document.getElementById('btnClockOut');
+    const timeClockIn = document.getElementById('timeClockIn');
+    const timeClockOut = document.getElementById('timeClockOut');
+    const attendanceAlert = document.getElementById('attendanceAlert');
+    const sumHadir = document.getElementById('sumHadir');
+    const toast = document.getElementById('attendanceToast');
+    const toastMessage = document.getElementById('toastMessage');
+    const toastIcon = document.getElementById('toastIcon');
+
+    if (!btnClockIn || !btnClockOut) return;
+
+    // Ambil tanggal hari ini (Format YYYY-MM-DD)
+    const today = new Date();
+    const dateStr = today.getFullYear() + '-' + String(today.getMonth() + 1).padStart(2, '0') + '-' + String(today.getDate()).padStart(2, '0');
+
+    const keyClockIn = 'clock_in_' + dateStr;
+    const keyClockOut = 'clock_out_' + dateStr;
+    const keyHadirCount = 'hadir_count_' + dateStr;
+
+    // Load data awal dari LocalStorage
+    let savedIn = localStorage.getItem(keyClockIn);
+    let savedOut = localStorage.getItem(keyClockOut);
+    let initialHadir = 20; // Default count from DB
+
+    // Update count Kehadiran jika user sudah clock in
+    if (localStorage.getItem(keyHadirCount)) {
+        sumHadir.textContent = localStorage.getItem(keyHadirCount);
+    } else {
+        if (savedIn) {
+            initialHadir = 21;
+            sumHadir.textContent = initialHadir;
+            localStorage.setItem(keyHadirCount, initialHadir);
+        }
+    }
+
+    function showToast(message, isSuccess = true) {
+        toastMessage.textContent = message;
+        toastIcon.textContent = isSuccess ? '✓' : '⚠️';
+        toastIcon.style.color = isSuccess ? '#10b981' : '#f59e0b';
+        toast.classList.add('show');
+        setTimeout(() => {
+            toast.classList.remove('show');
+        }, 3000);
+    }
+
+    function updateUI() {
+        savedIn = localStorage.getItem(keyClockIn);
+        savedOut = localStorage.getItem(keyClockOut);
+
+        if (savedIn) {
+            timeClockIn.textContent = savedIn;
+            btnClockIn.classList.add('active');
+            
+            // Info alert
+            attendanceAlert.classList.remove('warning');
+            attendanceAlert.innerHTML = `
+                <div class="m-attendance-alert-icon">✓</div>
+                <div class="m-attendance-alert-text">
+                    Sudah melakukan presensi masuk pukul <strong>${savedIn} WIB</strong>. Semangat bekerja!
+                </div>
+            `;
+        } else {
+            timeClockIn.textContent = '--:--';
+            btnClockIn.classList.remove('active');
+        }
+
+        if (savedOut) {
+            timeClockOut.textContent = savedOut;
+            btnClockOut.classList.add('active');
+
+            // Info alert
+            attendanceAlert.classList.remove('warning');
+            attendanceAlert.innerHTML = `
+                <div class="m-attendance-alert-icon">✓</div>
+                <div class="m-attendance-alert-text">
+                    Sudah melakukan presensi pulang pukul <strong>${savedOut} WIB</strong>. Hati-hati di jalan pulang!
+                </div>
+            `;
+        } else {
+            timeClockOut.textContent = '--:--';
+            btnClockOut.classList.remove('active');
+        }
+    }
+
+    // Klik Clock In
+    btnClockIn.addEventListener('click', function() {
+        if (localStorage.getItem(keyClockIn)) {
+            showToast('Anda sudah melakukan presensi masuk hari ini!', false);
+            return;
+        }
+
         const now = new Date();
         const h = String(now.getHours()).padStart(2, '0');
         const m = String(now.getMinutes()).padStart(2, '0');
-        const s = String(now.getSeconds()).padStart(2, '0');
-        clockEl.innerHTML = h + ':' + m + '<span class="m-clock-sec">:' + s + '</span>';
-    }
+        const timeString = h + ':' + m;
 
-    updateClock();
-    setInterval(updateClock, 1000);
+        localStorage.setItem(keyClockIn, timeString);
+        
+        // Naikkan rekap kehadiran
+        let count = parseInt(sumHadir.textContent);
+        count++;
+        sumHadir.textContent = count;
+        localStorage.setItem(keyHadirCount, count);
+
+        updateUI();
+        showToast('Presensi Masuk berhasil dicatat! Selamat bekerja.');
+    });
+
+    // Klik Clock Out
+    btnClockOut.addEventListener('click', function() {
+        if (!localStorage.getItem(keyClockIn)) {
+            showToast('Anda harus melakukan presensi masuk terlebih dahulu!', false);
+            return;
+        }
+
+        if (localStorage.getItem(keyClockOut)) {
+            showToast('Anda sudah melakukan presensi pulang hari ini!', false);
+            return;
+        }
+
+        const now = new Date();
+        const h = String(now.getHours()).padStart(2, '0');
+        const m = String(now.getMinutes()).padStart(2, '0');
+        const timeString = h + ':' + m;
+
+        localStorage.setItem(keyClockOut, timeString);
+        updateUI();
+        showToast('Presensi Pulang berhasil dicatat! Hati-hati di jalan.');
+    });
+
+    // Jalankan update pertama kali
+    updateUI();
 })();
 </script>
 
