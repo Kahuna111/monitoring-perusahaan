@@ -28,8 +28,28 @@ try {
     ];
     $pdo = new PDO($dsn, DB_USER, DB_PASS, $options);
 } catch (PDOException $e) {
-    die(json_encode([
-        'error'   => true,
-        'message' => 'Koneksi database gagal: ' . $e->getMessage()
-    ]));
+    // Jika database tidak ditemukan (SQLSTATE[HY000] [1049] Unknown database)
+    if ($e->getCode() == 1049 || strpos($e->getMessage(), '1049') !== false || strpos($e->getMessage(), 'Unknown database') !== false) {
+        try {
+            // Coba konek tanpa menentukan database terlebih dahulu
+            $dsnWithoutDb = "mysql:host=" . DB_HOST . ";port=" . DB_PORT . ";charset=" . DB_CHARSET;
+            $pdo = new PDO($dsnWithoutDb, DB_USER, DB_PASS, $options);
+            
+            // Buat database baru
+            $pdo->exec("CREATE DATABASE IF NOT EXISTS `" . DB_NAME . "` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+            
+            // Pilih database yang baru dibuat
+            $pdo->exec("USE `" . DB_NAME . "`");
+        } catch (PDOException $e2) {
+            die(json_encode([
+                'error'   => true,
+                'message' => 'Gagal membuat database otomatis: ' . $e2->getMessage()
+            ]));
+        }
+    } else {
+        die(json_encode([
+            'error'   => true,
+            'message' => 'Koneksi database gagal: ' . $e->getMessage()
+        ]));
+    }
 }
