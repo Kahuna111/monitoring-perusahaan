@@ -56,19 +56,19 @@ require_once '../../includes/navbar.php';
 <!-- Filter Bar -->
 <div class="card mb-20">
     <div class="card-body" style="padding:16px 24px;">
-        <form method="GET" style="display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end;">
+        <form method="GET" class="filter-bar-form">
             <div class="search-input" style="position:relative;flex:1;min-width:200px;">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="position:absolute;left:12px;top:50%;transform:translateY(-50%);width:15px;height:15px;color:#94a3b8;">
                     <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
                 </svg>
                 <input type="text" name="q" class="form-control" style="padding-left:36px;" placeholder="Cari nama, NIK, jabatan..." value="<?= htmlspecialchars($search) ?>">
             </div>
-            <select name="status" class="form-control" style="width:auto;">
+            <select name="status" class="form-control">
                 <option value="">Semua Status</option>
                 <option value="aktif"    <?= $filterStatus==='aktif'    ?'selected':'' ?>>Aktif</option>
                 <option value="nonaktif" <?= $filterStatus==='nonaktif' ?'selected':'' ?>>Non-Aktif</option>
             </select>
-            <select name="departemen" class="form-control" style="width:auto;">
+            <select name="departemen" class="form-control">
                 <option value="">Semua Departemen</option>
                 <?php foreach ($departemenList as $dep): ?>
                     <option value="<?= htmlspecialchars($dep) ?>" <?= $filterDepartemen===$dep?'selected':'' ?>>
@@ -81,7 +81,7 @@ require_once '../../includes/navbar.php';
                 Filter
             </button>
             <?php if ($filterStatus || $filterDepartemen || $search): ?>
-            <a href="<?= BASE_URL ?>/admin/karyawan/index.php" class="btn btn-outline">Reset</a>
+            <a href="<?= BASE_URL ?>/admin/karyawan/index.php" class="btn btn-outline" style="display:inline-flex;align-items:center;justify-content:center;">Reset</a>
             <?php endif; ?>
         </form>
     </div>

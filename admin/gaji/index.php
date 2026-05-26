@@ -47,7 +47,7 @@ require_once '../../includes/navbar.php';
 <!-- Filter Bulan -->
 <div class="card mb-20">
     <div class="card-body" style="padding:16px 24px;">
-        <form method="GET" style="display:flex;align-items:center;gap:12px;">
+        <form method="GET" class="filter-bar-form">
             <label style="font-size:13.5px;font-weight:600;color:#475569;">Pilih Bulan:</label>
             <input type="month" name="bulan" class="form-control" style="width:200px;" value="<?= $bulan ?>">
             <button type="submit" class="btn btn-primary">Tampilkan</button>
