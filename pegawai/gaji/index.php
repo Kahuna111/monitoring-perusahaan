@@ -12,6 +12,22 @@ $stmtKaryawan = $pdo->prepare("SELECT id FROM karyawan WHERE user_id = ?");
 $stmtKaryawan->execute([$_SESSION['user_id']]);
 $karyawan = $stmtKaryawan->fetch();
 
+// JIKA BELUM TERTAUT: Hubungkan secara otomatis jika ada data karyawan dengan NAMA yang sama
+if (!$karyawan) {
+    $stmtCari = $pdo->prepare("SELECT id FROM karyawan WHERE nama = ? AND user_id IS NULL LIMIT 1");
+    $stmtCari->execute([$_SESSION['user_nama']]);
+    $karyawanCocok = $stmtCari->fetch();
+    
+    if ($karyawanCocok) {
+        $stmtLink = $pdo->prepare("UPDATE karyawan SET user_id = ? WHERE id = ?");
+        $stmtLink->execute([$_SESSION['user_id'], $karyawanCocok['id']]);
+        
+        // Ambil ulang data karyawan setelah berhasil ditautkan
+        $stmtKaryawan->execute([$_SESSION['user_id']]);
+        $karyawan = $stmtKaryawan->fetch();
+    }
+}
+
 $gajiList = [];
 if ($karyawan) {
     // Ambil data riwayat gaji

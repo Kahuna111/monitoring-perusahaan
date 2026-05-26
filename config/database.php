@@ -53,3 +53,14 @@ try {
         ]));
     }
 }
+
+// Tambah kolom session_id secara otomatis ke tabel users jika belum ada
+try {
+    $pdo->exec("ALTER TABLE users ADD COLUMN IF NOT EXISTS session_id VARCHAR(255) DEFAULT NULL");
+} catch (Exception $e) {
+    try {
+        $pdo->exec("ALTER TABLE users ADD COLUMN session_id VARCHAR(255) DEFAULT NULL");
+    } catch (Exception $e2) {
+        // Kolom sudah ada atau query gagal (bisa diabaikan)
+    }
+}

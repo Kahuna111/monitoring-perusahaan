@@ -21,15 +21,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $user = $stmt->fetch();
 
         if ($user && password_verify($password, $user['password'])) {
-            // Set session
+            // Regenerate session ID untuk keamanan sebelum disimpan
+            session_regenerate_id(true);
+            $newSessionId = session_id();
+
+            // Simpan session ID baru ke database (1 akun = 1 perangkat aktif)
+            $stmtSession = $pdo->prepare("UPDATE users SET session_id = ? WHERE id = ?");
+            $stmtSession->execute([$newSessionId, $user['id']]);
+
+            // Set session variables
             $_SESSION['user_id']    = $user['id'];
             $_SESSION['user_nama']  = $user['nama'];
             $_SESSION['user_email'] = $user['email'];
             $_SESSION['user_role']  = $user['role'];
             $_SESSION['user_foto']  = $user['foto'];
-
-            // Regenerate session ID untuk keamanan
-            session_regenerate_id(true);
 
             setFlash('success', 'Selamat datang, ' . $user['nama'] . '!');
             redirectByRole();

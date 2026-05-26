@@ -20,6 +20,22 @@ $stmt = $pdo->prepare("
 $stmt->execute([$_SESSION['user_id']]);
 $user = $stmt->fetch();
 
+// JIKA BELUM TERTAUT: Hubungkan secara otomatis jika ada data karyawan dengan NAMA yang sama
+if ($user && !$user['karyawan_id']) {
+    $stmtCari = $pdo->prepare("SELECT id FROM karyawan WHERE nama = ? AND user_id IS NULL LIMIT 1");
+    $stmtCari->execute([$user['nama']]);
+    $karyawanCocok = $stmtCari->fetch();
+    
+    if ($karyawanCocok) {
+        $stmtLink = $pdo->prepare("UPDATE karyawan SET user_id = ? WHERE id = ?");
+        $stmtLink->execute([$_SESSION['user_id'], $karyawanCocok['id']]);
+        
+        // Ambil ulang data user setelah berhasil ditautkan
+        $stmt->execute([$_SESSION['user_id']]);
+        $user = $stmt->fetch();
+    }
+}
+
 if (!$user) {
     header('Location: ' . BASE_URL . '/logout.php');
     exit;
