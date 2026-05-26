@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
     private SwipeRefreshLayout swipeContainer;
     
     // Dynamic URL pointing to the Railway production site
-    private static final String APP_URL = "https://monitoring-perusahaan.up.railway.app";
+    private static final String APP_URL = "https://monitoring-perusahaan-production.up.railway.app";
     
     // File upload variables
     private ValueCallback<Uri[]> uploadMessage;
