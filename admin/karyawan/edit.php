@@ -16,6 +16,17 @@ $activePage = 'karyawan';
 $breadcrumb = 'Karyawan / Edit';
 $errors     = [];
 
+// Ambil daftar user ber-role pegawai yang belum tertaut dengan karyawan lain, atau yang sedang tertaut dengan karyawan ini
+$stmtUsers = $pdo->prepare("
+    SELECT id, nama, email 
+    FROM users 
+    WHERE role = 'pegawai' 
+      AND (id NOT IN (SELECT user_id FROM karyawan WHERE user_id IS NOT NULL AND id != ?) OR id = ?)
+    ORDER BY nama ASC
+");
+$stmtUsers->execute([$id, $karyawan['user_id']]);
+$userPegawaiList = $stmtUsers->fetchAll();
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nik           = sanitize($_POST['nik'] ?? '');
     $nama          = sanitize($_POST['nama'] ?? '');
@@ -26,6 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $no_telp       = sanitize($_POST['no_telp'] ?? '');
     $alamat        = sanitize($_POST['alamat'] ?? '');
     $status        = in_array($_POST['status'] ?? '', ['aktif','nonaktif']) ? $_POST['status'] : 'aktif';
+    $user_id       = $_POST['user_id'] !== '' ? (int)$_POST['user_id'] : null;
 
     if (empty($nik))  $errors[] = 'NIK wajib diisi.';
     if (empty($nama)) $errors[] = 'Nama wajib diisi.';
@@ -36,10 +48,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (empty($errors)) {
         $upd = $pdo->prepare("UPDATE karyawan SET
-            nik=?, nama=?, jabatan=?, departemen=?, tanggal_masuk=?,
+            user_id=?, nik=?, nama=?, jabatan=?, departemen=?, tanggal_masuk=?,
             gaji_pokok=?, no_telp=?, alamat=?, status=?
             WHERE id=?");
-        $upd->execute([$nik, $nama, $jabatan, $departemen,
+        $upd->execute([$user_id, $nik, $nama, $jabatan, $departemen,
             $tanggal_masuk ?: null, $gaji_pokok, $no_telp, $alamat, $status, $id]);
 
         setFlash('success', "Data karyawan <strong>$nama</strong> berhasil diperbarui.");
@@ -97,6 +109,18 @@ require_once '../../includes/navbar.php';
                         <option value="nonaktif" <?= $karyawan['status']==='nonaktif' ?'selected':'' ?>>Non-Aktif</option>
                     </select>
                 </div>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Akun Login Pengguna (Pegawai)</label>
+                <select name="user_id" class="form-control">
+                    <option value="">-- Hubungkan dengan Akun User --</option>
+                    <?php foreach ($userPegawaiList as $u): ?>
+                        <option value="<?= $u['id'] ?>" <?= (int)$karyawan['user_id'] === $u['id'] ? 'selected' : '' ?>>
+                            <?= htmlspecialchars($u['nama']) ?> (<?= htmlspecialchars($u['email']) ?>)
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+                <div class="form-text">Hubungkan data karyawan ini dengan akun pengguna agar mereka bisa login dan melihat slip gaji.</div>
             </div>
             <div class="form-group">
                 <label class="form-label">Nama Lengkap <span class="required">*</span></label>
