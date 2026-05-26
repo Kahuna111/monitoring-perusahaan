@@ -155,17 +155,6 @@ require_once '../../includes/navbar.php';
                     </td>
                 </tr>
                 <?php endforeach; ?>
-                <?php if (empty($karyawanList)): ?>
-                <tr>
-                    <td colspan="9">
-                        <div class="empty-state">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
-                            <h3>Belum ada karyawan</h3>
-                            <p>Tambahkan karyawan pertama Anda sekarang.</p>
-                        </div>
-                    </td>
-                </tr>
-                <?php endif; ?>
             </tbody>
         </table>
     </div>

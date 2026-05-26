@@ -163,19 +163,6 @@ require_once '../../includes/navbar.php';
                     </td>
                 </tr>
                 <?php endforeach; ?>
-                <?php if (empty($pengeluaranList)): ?>
-                <tr>
-                    <td colspan="8">
-                        <div class="empty-state">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                                <path d="M9 17v-2m3 2v-4m3 4v-6M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-                            </svg>
-                            <h3>Belum ada data pengeluaran</h3>
-                            <p>Silakan catat pengeluaran baru untuk rentang tanggal ini.</p>
-                        </div>
-                    </td>
-                </tr>
-                <?php endif; ?>
             </tbody>
         </table>
     </div>

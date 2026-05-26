@@ -125,17 +125,6 @@ require_once '../../includes/navbar.php';
                         </td>
                     </tr>
                     <?php endforeach; ?>
-                    <?php if (empty($gajiList)): ?>
-                    <tr>
-                        <td colspan="9">
-                            <div class="empty-state">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20M7 15h2m4 0h4"/></svg>
-                                <h3>Belum ada data slip gaji</h3>
-                                <p>Silakan hubungi administrator jika Anda belum menerima gaji bulan ini.</p>
-                            </div>
-                        </td>
-                    </tr>
-                    <?php endif; ?>
                 </tbody>
             </table>
         </div>

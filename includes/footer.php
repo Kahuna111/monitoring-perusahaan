@@ -26,14 +26,31 @@
 <script>
 window.addEventListener('load', function() {
     // Init DataTables
-    if (typeof $ !== 'undefined' && $('.data-table').length) {
-        $('.data-table').DataTable({
-            language: {
-                url: 'https://cdn.datatables.net/plug-ins/1.13.7/i18n/id.json'
-            },
-            pageLength: 10,
-            responsive: true,
-            columnDefs: [{ orderable: false, targets: -1 }]
+    if (typeof $ !== 'undefined' && $.fn.DataTable && $('.data-table').length) {
+        // Suppress DataTables error alerts (show in console instead)
+        $.fn.dataTable.ext.errMode = 'none';
+
+        $('.data-table').each(function() {
+            try {
+                $(this).DataTable({
+                    language: {
+                        url: 'https://cdn.datatables.net/plug-ins/1.13.7/i18n/id.json',
+                        emptyTable: 'Tidak ada data yang tersedia',
+                        zeroRecords: 'Tidak ada data yang cocok',
+                        info: 'Menampilkan _START_ sampai _END_ dari _TOTAL_ entri',
+                        infoEmpty: 'Menampilkan 0 sampai 0 dari 0 entri',
+                        infoFiltered: '(disaring dari _MAX_ total entri)',
+                        lengthMenu: 'Tampilkan _MENU_ entri',
+                        search: 'Cari:',
+                        paginate: { first: 'Pertama', last: 'Terakhir', next: 'Selanjutnya', previous: 'Sebelumnya' }
+                    },
+                    pageLength: 10,
+                    responsive: true,
+                    columnDefs: [{ orderable: false, targets: -1 }]
+                });
+            } catch(e) {
+                console.warn('DataTables init skipped for', this.id, e.message);
+            }
         });
     }
 

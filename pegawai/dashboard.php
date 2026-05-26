@@ -3,6 +3,12 @@ require_once '../config/database.php';
 require_once '../config/auth.php';
 requireLogin();
 
+// Admin seharusnya di admin dashboard, bukan di sini
+if (isAdmin()) {
+    header('Location: ' . BASE_URL . '/admin/dashboard.php');
+    exit;
+}
+
 $pageTitle  = 'Dashboard Pegawai';
 $activePage = 'dashboard';
 $breadcrumb = 'Beranda / Dashboard';
