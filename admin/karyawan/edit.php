@@ -16,12 +16,11 @@ $activePage = 'karyawan';
 $breadcrumb = 'Karyawan / Edit';
 $errors     = [];
 
-// Ambil daftar user ber-role pegawai yang belum tertaut dengan karyawan lain, atau yang sedang tertaut dengan karyawan ini
+// Ambil daftar user yang belum tertaut dengan karyawan lain, atau yang sedang tertaut dengan karyawan ini (mendukung semua role)
 $stmtUsers = $pdo->prepare("
-    SELECT id, nama, email 
+    SELECT id, nama, email, role 
     FROM users 
-    WHERE role = 'pegawai' 
-      AND (id NOT IN (SELECT user_id FROM karyawan WHERE user_id IS NOT NULL AND id != ?) OR id = ?)
+    WHERE (id NOT IN (SELECT user_id FROM karyawan WHERE user_id IS NOT NULL AND id != ?) OR id = ?)
     ORDER BY nama ASC
 ");
 $stmtUsers->execute([$id, $karyawan['user_id']]);
@@ -111,16 +110,20 @@ require_once '../../includes/navbar.php';
                 </div>
             </div>
             <div class="form-group">
-                <label class="form-label">Akun Login Pengguna (Pegawai)</label>
-                <select name="user_id" class="form-control">
-                    <option value="">-- Hubungkan dengan Akun User --</option>
-                    <?php foreach ($userPegawaiList as $u): ?>
-                        <option value="<?= $u['id'] ?>" <?= (int)$karyawan['user_id'] === $u['id'] ? 'selected' : '' ?>>
-                            <?= htmlspecialchars($u['nama']) ?> (<?= htmlspecialchars($u['email']) ?>)
-                        </option>
-                    <?php endforeach; ?>
+                <label class="form-label">Akun Login Pengguna (Admin / Pegawai)</label>
+                <select name="user_id" class="form-control" <?= empty($userPegawaiList) ? 'disabled' : '' ?>>
+                    <?php if (empty($userPegawaiList)): ?>
+                        <option value="">-- Tidak ada akun user yang belum terhubung --</option>
+                    <?php else: ?>
+                        <option value="">-- Hubungkan dengan Akun User --</option>
+                        <?php foreach ($userPegawaiList as $u): ?>
+                            <option value="<?= $u['id'] ?>" <?= (int)$karyawan['user_id'] === $u['id'] ? 'selected' : '' ?>>
+                                <?= htmlspecialchars($u['nama']) ?> (<?= htmlspecialchars($u['email']) ?>) - [<?= ucfirst($u['role']) ?>]
+                            </option>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
                 </select>
-                <div class="form-text">Hubungkan data karyawan ini dengan akun pengguna agar mereka bisa login dan melihat slip gaji.</div>
+                <div class="form-text">Hubungkan data karyawan ini dengan akun pengguna agar mereka bisa login dan melihat slip gaji. Jika akun belum terdaftar, buat terlebih dahulu di <strong>Pengaturan → Akun User</strong>.</div>
             </div>
             <div class="form-group">
                 <label class="form-label">Nama Lengkap <span class="required">*</span></label>

@@ -31,7 +31,7 @@ $pageTitle = $pageTitle ?? APP_NAME;
     <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/style.css">
 
     <!-- DataTables CSS -->
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.custom.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
 
     <!-- Flatpickr CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
@@ -54,16 +54,46 @@ $pageTitle = $pageTitle ?? APP_NAME;
             font-family: 'Inter', sans-serif;
             font-size: 13px;
         }
-        div.dataTables_wrapper div.dataTables_info { font-size: 13px; color: #64748b; }
-        div.dataTables_wrapper div.dataTables_paginate { font-size: 13px; }
-        .dataTables_wrapper .dataTables_paginate .paginate_button {
-            border-radius: 7px !important;
-            font-family: 'Inter', sans-serif !important;
+        div.dataTables_wrapper div.dataTables_info { font-size: 13px; color: #64748b; margin-top: 15px; }
+        div.dataTables_wrapper div.dataTables_paginate {
+            font-size: 13px;
+            margin-top: 15px;
+            display: inline-flex !important;
+            align-items: center;
+            gap: 4px;
         }
-        .dataTables_wrapper .dataTables_paginate .paginate_button.current {
+        .dataTables_wrapper .dataTables_paginate .paginate_button {
+            display: inline-block !important;
+            padding: 6px 12px !important;
+            margin: 0 2px !important;
+            border-radius: 6px !important;
+            border: 1px solid #cbd5e1 !important;
+            background: #ffffff !important;
+            color: #475569 !important;
+            cursor: pointer !important;
+            text-decoration: none !important;
+            font-weight: 500 !important;
+            font-family: 'Inter', sans-serif !important;
+            transition: all 0.2s ease !important;
+        }
+        .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+            background: #f1f5f9 !important;
+            color: #0f172a !important;
+            border-color: #94a3b8 !important;
+        }
+        .dataTables_wrapper .dataTables_paginate .paginate_button.current,
+        .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
             background: linear-gradient(135deg, #6366f1, #4f46e5) !important;
-            border-color: transparent !important;
+            border: 1px solid transparent !important;
             color: white !important;
+            font-weight: 600 !important;
+        }
+        .dataTables_wrapper .dataTables_paginate .paginate_button.disabled,
+        .dataTables_wrapper .dataTables_paginate .paginate_button.disabled:hover {
+            background: #f8fafc !important;
+            color: #94a3b8 !important;
+            border-color: #e2e8f0 !important;
+            cursor: default !important;
         }
         table.dataTable thead th { cursor: pointer; }
     </style>
