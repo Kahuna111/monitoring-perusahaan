@@ -1,0 +1,25 @@
+# Dependency directories
+node_modules/
+jspm_packages/
+web_modules/
+
+# Production builds
+/desktop-app/dist/
+/desktop-app/out/
+/desktop-app/MonitorPro-win32-x64/
+
+# Log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.log
+
+# Editor & OS settings
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# User uploads & cache
+/uploads/*
+!/uploads/.gitkeep
