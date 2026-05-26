@@ -885,6 +885,30 @@ select.form-control { cursor: pointer; }
 
 .filter-bar .search-input input { padding-left: 36px; }
 
+/* Filter Bar Form (used inside card-body for inline filter forms) */
+.filter-bar-form {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.filter-bar-form .form-control {
+    width: auto;
+    min-width: 140px;
+    flex-shrink: 1;
+}
+
+.filter-bar-form .search-input {
+    position: relative;
+    flex: 1;
+    min-width: 180px;
+}
+
+.filter-bar-form .btn {
+    flex-shrink: 0;
+}
+
 /* ============================================
    RESPONSIVE
    ============================================ */
@@ -896,11 +920,50 @@ select.form-control { cursor: pointer; }
     .topbar { padding: 0 16px; }
     .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
     .stat-value { font-size: 18px; }
+
+    /* Filter bar form: stack vertically on mobile */
+    .filter-bar-form {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .filter-bar-form .form-control,
+    .filter-bar-form .search-input {
+        width: 100% !important;
+        min-width: unset !important;
+    }
+    .filter-bar-form .btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    /* Table responsive: horizontal scroll with better sizing */
+    .table-responsive {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+    .table th, .table td {
+        font-size: 12.5px;
+        padding: 10px 12px;
+        white-space: nowrap;
+    }
+
+    /* Card footer buttons: stack on mobile */
+    .card-footer {
+        flex-direction: column;
+    }
+    .card-footer .btn {
+        width: 100%;
+        justify-content: center;
+    }
 }
 
 @media (max-width: 480px) {
     .stats-grid { grid-template-columns: 1fr 1fr; }
     .page-header { flex-direction: column; align-items: flex-start; }
+    .table th, .table td {
+        font-size: 11.5px;
+        padding: 8px 10px;
+    }
 }
 
 /* ============================================
@@ -999,3 +1062,39 @@ select.form-control { cursor: pointer; }
         padding: 10px 12px;
     }
 }
+
+/* ===== PASSWORD INPUT TOGGLE STYLE ===== */
+.password-input-wrap {
+    position: relative;
+    width: 100%;
+}
+.password-input-wrap .form-control {
+    padding-right: 44px;
+}
+.toggle-password {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    color: #94a3b8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    transition: all 0.15s;
+    z-index: 10;
+}
+.toggle-password:hover {
+    color: #475569;
+    background: #f1f5f9;
+}
+.toggle-password svg {
+    width: 18px;
+    height: 18px;
+}
+
+

@@ -7,18 +7,6 @@ $pageTitle  = 'Dashboard Pegawai';
 $activePage = 'dashboard';
 $breadcrumb = 'Beranda / Dashboard';
 
-// Proses Tautkan Akun Mandiri jika diposting
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'link_self_karyawan') {
-    $karyawanId = (int)($_POST['karyawan_id'] ?? 0);
-    if ($karyawanId > 0) {
-        $stmtLink = $pdo->prepare("UPDATE karyawan SET user_id = ? WHERE id = ? AND user_id IS NULL");
-        $stmtLink->execute([$_SESSION['user_id'], $karyawanId]);
-        setFlash('success', 'Akun Anda berhasil ditautkan ke data karyawan!');
-        header('Location: ' . BASE_URL . '/pegawai/dashboard.php');
-        exit;
-    }
-}
-
 // Ambil data user beserta detail karyawan jika ada
 $stmt = $pdo->prepare("
     SELECT u.nama, u.email, u.role, u.foto, u.created_at AS user_created,
@@ -45,12 +33,6 @@ if ($userData && !$userData['karyawan_id']) {
         $stmt->execute([$_SESSION['user_id']]);
         $userData = $stmt->fetch();
     }
-}
-
-// Ambil daftar karyawan yang belum terikat dengan akun user apa pun untuk pilihan penautan mandiri
-$unlinkedKaryawan = [];
-if ($userData && !$userData['karyawan_id']) {
-    $unlinkedKaryawan = $pdo->query("SELECT id, nama, nik, jabatan FROM karyawan WHERE user_id IS NULL ORDER BY nama ASC")->fetchAll();
 }
 
 // Ambil data gaji terakhir jika terdaftar sebagai karyawan
@@ -896,25 +878,13 @@ require_once '../includes/navbar.php';
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
             </div>
             <h3>Akun Belum Tertaut</h3>
-            <p>Akun login Anda belum dikaitkan dengan database Karyawan oleh Administrator.</p>
-            
-            <?php if (!empty($unlinkedKaryawan)): ?>
-                <div style="margin-top: 18px; text-align: left; background: rgba(255,255,255,0.9); padding: 16px; border-radius: 12px; border: 1px solid #fde68a; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
-                    <form method="POST" action="">
-                        <input type="hidden" name="action" value="link_self_karyawan">
-                        <label style="font-size: 11.5px; font-weight: 700; color: #854d0e; display: block; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.3px;">Pilih Profil Karyawan Anda:</label>
-                        <select name="karyawan_id" style="width: 100%; padding: 10px; border-radius: 8px; border: 1.5px solid #cbd5e1; font-family: 'Inter', sans-serif; font-size: 13px; margin-bottom: 12px; background: white; color: #334155; outline: none; cursor: pointer;" required>
-                            <option value="">-- Hubungkan dengan Data Karyawan --</option>
-                            <?php foreach ($unlinkedKaryawan as $k): ?>
-                                <option value="<?= $k['id'] ?>"><?= htmlspecialchars($k['nama']) ?> (<?= htmlspecialchars($k['nik']) ?> - <?= htmlspecialchars($k['jabatan'] ?? 'Pegawai') ?>)</option>
-                            <?php endforeach; ?>
-                        </select>
-                        <button type="submit" class="btn btn-warning" style="width: 100%; justify-content: center; display: inline-flex; font-weight: 700; font-size: 13px; padding: 10px;">Tautkan Profil Saya</button>
-                    </form>
+            <p>Akun login Anda belum dikaitkan dengan database Karyawan oleh Administrator. Silakan hubungi bagian administrasi/HRD untuk menautkan akun Anda.</p>
+            <div style="margin-top: 16px; background: rgba(255,255,255,0.85); padding: 14px 16px; border-radius: 12px; border: 1px solid #fde68a;">
+                <div style="display:flex; align-items:center; gap:10px; font-size:12.5px; color:#92400e;">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:18px;height:18px;flex-shrink:0;color:#d97706;"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72"/></svg>
+                    <span>Minta Admin untuk membuka menu <strong>Manajemen Karyawan → Edit</strong>, lalu pilih akun Anda di dropdown "Akun Login Pengguna".</span>
                 </div>
-            <?php else: ?>
-                <p style="margin-top: 14px; font-size: 12px; font-style: italic; color: #a16207;">Tidak ada data karyawan kosong yang dapat ditautkan saat ini. Silakan hubungi bagian HRD/Admin.</p>
-            <?php endif; ?>
+            </div>
         </div>
 
     <?php else: ?>

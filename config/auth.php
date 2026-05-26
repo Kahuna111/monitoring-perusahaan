@@ -8,10 +8,14 @@ if (session_status() === PHP_SESSION_NONE) {
 
 /**
  * Cek apakah user sudah login dan memvalidasi single device session
+ * Hasil di-cache per request agar tidak query DB berkali-kali
  */
 function isLoggedIn(): bool {
+    static $cachedResult = null;
+    if ($cachedResult !== null) return $cachedResult;
+
     if (!isset($_SESSION['user_id']) || empty($_SESSION['user_id'])) {
-        return false;
+        return $cachedResult = false;
     }
 
     // Fitur cek agar 1 akun hanya dapat diakses oleh 1 perangkat/browser
@@ -39,14 +43,14 @@ function isLoggedIn(): bool {
                     session_start();
                 }
                 setFlash('danger', 'Akun Anda telah diakses dari perangkat atau browser lain. Sesi ini telah berakhir.');
-                return false;
+                return $cachedResult = false;
             }
         } catch (Exception $e) {
             // Abaikan jika query gagal agar tidak memutus akses aplikasi secara mendadak
         }
     }
 
-    return true;
+    return $cachedResult = true;
 }
 
 /**

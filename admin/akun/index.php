@@ -184,7 +184,12 @@ require_once '../../includes/navbar.php';
                 <div class="form-row">
                     <div class="form-group">
                         <label class="form-label">Password <span class="required">*</span></label>
-                        <input type="password" name="password" class="form-control" placeholder="Min. 6 karakter" required>
+                        <div class="password-input-wrap">
+                            <input type="password" name="password" class="form-control" placeholder="Min. 6 karakter" required>
+                            <button type="button" class="toggle-password" title="Tampilkan password">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                            </button>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label class="form-label">Role Akses <span class="required">*</span></label>

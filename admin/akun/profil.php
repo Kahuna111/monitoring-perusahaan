@@ -159,17 +159,32 @@ require_once '../../includes/navbar.php';
 
                 <div class="form-group">
                     <label class="form-label">Password Saat Ini</label>
-                    <input type="password" name="password_lama" class="form-control" placeholder="Masukkan password sekarang" required>
+                    <div class="password-input-wrap">
+                        <input type="password" name="password_lama" class="form-control" placeholder="Masukkan password sekarang" required>
+                        <button type="button" class="toggle-password" title="Tampilkan password">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                        </button>
+                    </div>
                 </div>
 
                 <div class="form-row">
                     <div class="form-group">
                         <label class="form-label">Password Baru</label>
-                        <input type="password" name="password_baru" class="form-control" placeholder="Minimal 6 karakter" required>
+                        <div class="password-input-wrap">
+                            <input type="password" name="password_baru" class="form-control" placeholder="Minimal 6 karakter" required>
+                            <button type="button" class="toggle-password" title="Tampilkan password">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                            </button>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label class="form-label">Konfirmasi Password Baru</label>
-                        <input type="password" name="konfirmasi_password" class="form-control" placeholder="Ulangi password baru" required>
+                        <div class="password-input-wrap">
+                            <input type="password" name="konfirmasi_password" class="form-control" placeholder="Ulangi password baru" required>
+                            <button type="button" class="toggle-password" title="Tampilkan password">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                            </button>
+                        </div>
                     </div>
                 </div>
 

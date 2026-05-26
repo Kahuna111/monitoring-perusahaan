@@ -208,17 +208,32 @@ require_once '../includes/navbar.php';
 
                 <div class="form-group">
                     <label class="form-label">Password Lama</label>
-                    <input type="password" name="password_lama" class="form-control" placeholder="Masukkan password lama Anda" required>
+                    <div class="password-input-wrap">
+                        <input type="password" name="password_lama" class="form-control" placeholder="Masukkan password lama Anda" required>
+                        <button type="button" class="toggle-password" title="Tampilkan password">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                        </button>
+                    </div>
                 </div>
 
                 <div class="form-group">
                     <label class="form-label">Password Baru</label>
-                    <input type="password" name="password_baru" class="form-control" placeholder="Minimal 6 karakter" required>
+                    <div class="password-input-wrap">
+                        <input type="password" name="password_baru" class="form-control" placeholder="Minimal 6 karakter" required>
+                        <button type="button" class="toggle-password" title="Tampilkan password">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                        </button>
+                    </div>
                 </div>
 
                 <div class="form-group" style="margin-bottom:20px;">
                     <label class="form-label">Ulangi Password Baru</label>
-                    <input type="password" name="konfirmasi_password" class="form-control" placeholder="Konfirmasi password baru" required>
+                    <div class="password-input-wrap">
+                        <input type="password" name="konfirmasi_password" class="form-control" placeholder="Konfirmasi password baru" required>
+                        <button type="button" class="toggle-password" title="Tampilkan password">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                        </button>
+                    </div>
                 </div>
 
                 <button type="submit" class="btn btn-warning" style="width:100%;">Ganti Password</button>
@@ -228,4 +243,52 @@ require_once '../includes/navbar.php';
 
 </div>
 
+<style>
+.password-input-wrap {
+    position: relative;
+}
+.password-input-wrap .form-control {
+    padding-right: 44px;
+}
+.toggle-password {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    color: #94a3b8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    transition: all 0.15s;
+}
+.toggle-password:hover {
+    color: #475569;
+    background: #f1f5f9;
+}
+.toggle-password svg {
+    width: 18px;
+    height: 18px;
+}
+</style>
+
+<script>
+document.querySelectorAll('.toggle-password').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+        const wrap = btn.closest('.password-input-wrap');
+        const input = wrap.querySelector('input');
+        const isPassword = input.type === 'password';
+        input.type = isPassword ? 'text' : 'password';
+        btn.innerHTML = isPassword
+            ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>'
+            : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>';
+    });
+});
+</script>
+
 <?php require_once '../includes/footer.php'; ?>
+

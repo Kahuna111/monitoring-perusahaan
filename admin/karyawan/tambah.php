@@ -187,7 +187,12 @@ require_once '../../includes/navbar.php';
                         </div>
                         <div class="form-group" style="margin-bottom:0;">
                             <label class="form-label">Password Awal</label>
-                            <input type="text" name="pass_akun" class="form-control" placeholder="Minimal 6 karakter" value="<?= htmlspecialchars($_POST['pass_akun'] ?? '') ?>">
+                            <div style="position:relative;">
+                                <input type="password" name="pass_akun" id="passAkun" class="form-control" style="padding-right:44px;" placeholder="Minimal 6 karakter" value="<?= htmlspecialchars($_POST['pass_akun'] ?? '') ?>">
+                                <button type="button" id="togglePassAkun" style="position:absolute;right:8px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;padding:4px;color:#94a3b8;display:flex;align-items:center;justify-content:center;border-radius:6px;" title="Tampilkan password">
+                                    <svg id="eyePassAkun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:18px;height:18px;"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                                </button>
+                            </div>
                             <div class="form-text">Informasikan password ini kepada karyawan untuk login pertama kali.</div>
                         </div>
                     </div>
@@ -242,6 +247,20 @@ document.querySelectorAll('[data-rupiah]').forEach(input => {
         // Store raw value
     });
 });
+
+// Toggle password visibility
+const togglePassBtn = document.getElementById('togglePassAkun');
+const passInput = document.getElementById('passAkun');
+const eyeIcon = document.getElementById('eyePassAkun');
+if (togglePassBtn && passInput) {
+    togglePassBtn.addEventListener('click', function() {
+        const isPassword = passInput.type === 'password';
+        passInput.type = isPassword ? 'text' : 'password';
+        eyeIcon.innerHTML = isPassword
+            ? '<path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/>'
+            : '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>';
+    });
+}
 </script>
 
 <?php require_once '../../includes/footer.php'; ?>
