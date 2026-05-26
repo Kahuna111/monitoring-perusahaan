@@ -1,0 +1,21 @@
+{
+  "name": "monitorpro-desktop",
+  "version": "1.0.0",
+  "description": "Desktop wrapper for MonitorPro",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "package": "electron-packager . MonitorPro --platform=win32 --arch=x64 --out=dist --overwrite"
+  },
+  "keywords": [
+    "monitoring",
+    "electron",
+    "desktop"
+  ],
+  "author": "PT. Nama Perusahaan Anda",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^32.0.0",
+    "electron-packager": "^17.1.2"
+  }
+}
