@@ -15,6 +15,11 @@ $pageTitle = $pageTitle ?? APP_NAME;
     <meta name="description" content="<?= APP_NAME ?> - Sistem Monitoring Perusahaan | Kelola karyawan, keuangan, dan laporan secara terpusat.">
     <title><?= htmlspecialchars($pageTitle) ?> | <?= APP_NAME ?></title>
 
+    <!-- PWA Manifest & Icons -->
+    <link rel="manifest" href="<?= BASE_URL ?>/manifest.json">
+    <meta name="theme-color" content="#0f1117">
+    <link rel="apple-touch-icon" href="<?= BASE_URL ?>/assets/img/icon-192.png">
+
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

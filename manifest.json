@@ -1,0 +1,24 @@
+{
+  "name": "MonitorPro - Sistem Monitoring Perusahaan",
+  "short_name": "MonitorPro",
+  "description": "Sistem Monitoring Perusahaan - Kelola karyawan, keuangan, dan laporan secara terpusat.",
+  "start_url": "/login.php",
+  "display": "standalone",
+  "background_color": "#0f1117",
+  "theme_color": "#0f1117",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/assets/img/icon-192.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/assets/img/icon-512.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any maskable"
+    }
+  ]
+}

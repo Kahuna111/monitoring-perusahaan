@@ -5,16 +5,25 @@
 document.addEventListener('DOMContentLoaded', () => {
 
     // === SIDEBAR TOGGLE ===
-    const sidebar      = document.getElementById('sidebar');
-    const mainContent  = document.getElementById('mainContent');
+    const sidebar       = document.getElementById('sidebar');
+    const mainContent   = document.getElementById('mainContent');
     const sidebarToggle = document.getElementById('sidebarToggle');
+    const sidebarClose  = document.getElementById('sidebarClose');
     const mobileOverlay = document.getElementById('mobileOverlay');
 
     const isMobile = () => window.innerWidth <= 768;
 
+    const closeMobileMenu = () => {
+        sidebar?.classList.remove('mobile-open');
+        mobileOverlay?.classList.remove('active');
+    };
+
     if (sidebarToggle) {
         sidebarToggle.addEventListener('click', () => {
             if (isMobile()) {
+                // Ensure desktop classes are cleared on mobile
+                sidebar?.classList.remove('collapsed');
+                mainContent?.classList.remove('sidebar-collapsed');
                 sidebar?.classList.toggle('mobile-open');
                 mobileOverlay?.classList.toggle('active');
             } else {
@@ -27,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Restore sidebar state
+    // Restore sidebar state on load
     if (!isMobile() && sidebar) {
         const collapsed = localStorage.getItem('sidebarCollapsed') === 'true';
         if (collapsed) {
@@ -37,9 +46,29 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Close sidebar on mobile overlay click
-    mobileOverlay?.addEventListener('click', () => {
-        sidebar?.classList.remove('mobile-open');
-        mobileOverlay.classList.remove('active');
+    mobileOverlay?.addEventListener('click', closeMobileMenu);
+
+    // Close sidebar on close button click
+    sidebarClose?.addEventListener('click', closeMobileMenu);
+
+    // Handle screen resize/orientation changes to prevent menu class desync
+    window.addEventListener('resize', () => {
+        if (isMobile()) {
+            sidebar?.classList.remove('collapsed');
+            mainContent?.classList.remove('sidebar-collapsed');
+        } else {
+            closeMobileMenu();
+            const collapsed = localStorage.getItem('sidebarCollapsed') === 'true';
+            if (collapsed) {
+                sidebar?.classList.add('collapsed');
+                mainContent?.classList.add('sidebar-collapsed');
+            }
+        }
+    });
+
+    // Handle back-forward cache (bfcache) pageshow event to reset mobile menu state
+    window.addEventListener('pageshow', () => {
+        closeMobileMenu();
     });
 
     // === DROPDOWN ===
@@ -247,5 +276,14 @@ document.addEventListener('DOMContentLoaded', () => {
             ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>'
             : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>';
     });
+
+    // === REGISTER SERVICE WORKER (PWA) ===
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/sw.js')
+                .then(reg => console.log('Service Worker registered successfully with scope:', reg.scope))
+                .catch(err => console.error('Service Worker registration failed:', err));
+        });
+    }
 
 });

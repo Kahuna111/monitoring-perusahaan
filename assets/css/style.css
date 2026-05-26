@@ -1097,4 +1097,41 @@ select.form-control { cursor: pointer; }
     height: 18px;
 }
 
+/* ===== MOBILE SIDEBAR CLOSE BUTTON ===== */
+.sidebar-close {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .sidebar-close {
+        display: flex;
+        position: absolute;
+        top: 22px;
+        right: 16px;
+        width: 34px;
+        height: 34px;
+        border: none;
+        background: rgba(255, 255, 255, 0.08);
+        border-radius: 8px;
+        color: #e2e8f0;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        z-index: 1010;
+        transition: var(--transition);
+    }
+    .sidebar-close:hover {
+        background: rgba(255, 255, 255, 0.16);
+        color: #ffffff;
+    }
+    .sidebar-close svg {
+        width: 18px;
+        height: 18px;
+    }
+    .sidebar-logo {
+        padding-right: 56px;
+    }
+}
+
+
 
